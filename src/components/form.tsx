@@ -6,16 +6,16 @@ import { z } from "zod";
 import { FormDataSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { steps } from "@/data/steps";
+import { generateSteps } from "@/data/steps";
 import StepNavigation from "./stepNavigation";
 import NavigationControls from "./navigationControls";
-
+import { submitResponse } from "@/actions/actions";
+import { webDevQs } from "@/data/techQs";
 type Inputs = z.infer<typeof FormDataSchema>;
 
-export default function Form() {
+export default function Form(domain: string, subdomain: string) {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const [selectedDomain, setSelectedDomain] = useState(""); // State to track selected domain
   const delta = currentStep - previousStep;
 
   const {
@@ -29,11 +29,14 @@ export default function Form() {
   });
 
   const processForm: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    data = { ...data, domain, subdomain: subdomain };
+    submitResponse(data);
     reset();
   };
 
   type FieldName = keyof Inputs;
+
+  const steps = generateSteps(webDevQs);
 
   const next = async () => {
     const fields = steps[currentStep].fields?.map((field) => field.name);
@@ -51,24 +54,11 @@ export default function Form() {
   };
 
   const prev = () => {
-    if (currentStep > 0) {
+    if (currentStep > 0 && currentStep < steps.length - 1) {
       setPreviousStep(currentStep);
       setCurrentStep((step) => step - 1);
     }
   };
-
-  const handleDomainChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedDomain(event.target.value);
-  };
-
-  const filteredSubdomains =
-    selectedDomain === "Technical"
-      ? ["Web Dev", "App Dev"]
-      : selectedDomain === "Creatives"
-      ? ["Creatives"]
-      : selectedDomain === "Corporate"
-      ? ["Sponsorship", "Marketing"]
-      : [];
 
   return (
     <section className=" flex flex-col justify-between p-0">
@@ -99,43 +89,12 @@ export default function Form() {
                     {field.label}
                   </label>
                   <div className="mt-2">
-                    {field.type === "select" && field.name === "domain" ? (
-                      <select
-                        id={field.name}
-                        {...register(field.name as FieldName, {
-                          onChange: handleDomainChange,
-                        })}
-                        autoComplete={field.autoComplete}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      >
-                        {field.options?.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    ) : field.type === "select" &&
-                      field.name === "subdomain" ? (
+                    {field.type === "select" ? (
                       <select
                         id={field.name}
                         {...register(field.name as FieldName)}
                         autoComplete={field.autoComplete}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      >
-                        {filteredSubdomains.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    ) : field.type === "select" &&
-                      field.name !== "subdomain" &&
-                      field.name !== "domain" ? (
-                      <select
-                        id={field.name}
-                        {...register(field.name as FieldName)}
-                        autoComplete={field.autoComplete}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:max-w-xs sm:text-sm sm:leading-6"
                       >
                         {field.options.map((option) => (
                           <option key={option} value={option}>
@@ -148,7 +107,7 @@ export default function Form() {
                         id={field.name}
                         {...register(field.name as FieldName)}
                         autoComplete={field.autoComplete}
-                        className="flex h-[40vh] w-full resize-none rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                        className="flex h-[40vh] w-full resize-none rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                         rows={4}
                       />
                     ) : (
@@ -157,7 +116,7 @@ export default function Form() {
                         id={field.name}
                         {...register(field.name as FieldName)}
                         autoComplete={field.autoComplete}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                       />
                     )}
                     {errors[field.name as FieldName]?.message && (

@@ -13,6 +13,8 @@ export const FormDataSchema = z.object({
   linkedin: z.string().url().min(1, "Linkedin is required"),
   github: z.string().url().min(1, "Github is required"),
   resume: z.string(),
+  domain: z.string(),
+  subdomain: z.string(),
   q1: z.string().min(1, "This question is required"),
   q2: z.string().min(1, "This question is required"),
   q3: z.string().min(1, "This question is required"),
@@ -21,16 +23,25 @@ export const FormDataSchema = z.object({
 });
 
 export interface response {
-  id: string;
   firstName: string;
   lastName: string;
   email: string;
-  srmEmail: boolean;
+  srmEmail: string;
   phone: string;
   regno: string;
-  year: boolean;
+  year: string;
   course: string;
   department: string;
+  linkedin: string;
+  github: string;
+  resume?: string;
+  domain: string;
+  subdomain: string;
+  q1: string;
+  q2: string;
+  q3: string;
+  q4: string;
+  q5: string;
 }
 
 export interface BaseField {

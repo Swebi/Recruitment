@@ -6,21 +6,19 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Questions {
-  id          String     @id @default(cuid())
-  domain      String
-  subdomain   String
-  question    String
-  Responses   Responses? @relation(fields: [responsesId], references: [id])
-  responsesId String?
+  id        String @id @default(cuid())
+  domain    String
+  subdomain String
+  question  String
 }
 
 model Responses {
-  id         String      @id @default(cuid())
+  id         String  @id @default(cuid())
   firstName  String
   lastName   String
   email      String
@@ -33,6 +31,13 @@ model Responses {
   linkedin   String
   github     String
   resume     String?
-  questions  Questions[]
-  createdAt  DateTime    @default(now())
+  domain     String
+  subdomain  String
+  q1         String
+  q2         String
+  q3         String
+  q4         String
+  q5         String
+
+  createdAt DateTime @default(now())
 }
