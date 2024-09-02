@@ -5,66 +5,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function submitQuestions(formData: FormData) {
-  const domain = formData.get("domain") as string;
-  const subdomain = formData.get("subdomain") as string;
-  const questions = formData.getAll("questions") as string[];
-  console.log(domain);
-  console.log(subdomain);
-  console.log(questions);
-
-  try {
-    questions.map(
-      async (question) =>
-        await prisma.questions.create({
-          data: {
-            domain,
-            subdomain,
-            question,
-          },
-        })
-    );
-    return { success: true, message: "Questions submitted successfully!" };
-  } catch (error) {
-    console.error("Error submitting questions:", error);
-    return {
-      success: false,
-      message: "Failed to submit questions. Please try again.",
-    };
-  }
-}
-
-export async function getQuestions({
-  domain,
-  subdomain,
-}: {
-  domain: string;
-  subdomain: string;
-}) {
-  try {
-    const questions = await prisma.questions.findMany({
-      where: { domain, subdomain },
-      select: {
-        question: true,
-      },
-    });
-    const questionStrings = questions.map((q) => q.question);
-
-    return {
-      success: true,
-      message: "Questions fetched successfully!",
-      questions: questionStrings,
-    };
-  } catch (error) {
-    console.error("Error fetching questions:", error);
-    return {
-      success: false,
-      message: "Failed to fetch questions. Please try again.",
-    };
-  }
-}
-
 export async function submitResponse(formData: response) {
+  console.log(formData);
   try {
     await prisma.responses.create({
       data: {

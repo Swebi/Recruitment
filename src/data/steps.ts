@@ -100,8 +100,6 @@ export function generateSteps(questionLabels: string[]): Step[] {
     {
       id: "Step 4",
       name: "Complete",
-      description: "Review and submit your application.",
-      fields: [], // Assuming no fields for the completion step
     },
   ];
 }
