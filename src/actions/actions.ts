@@ -34,10 +34,9 @@ export async function submitResponse(formData: response) {
 
     return { success: true, message: "Questions submitted successfully!" };
   } catch (error) {
-    console.error("Error submitting questions:", error);
     return {
       success: false,
-      message: "Failed to submit questions. Please try again.",
+      message: "You have already submitted a response",
     };
   }
 }

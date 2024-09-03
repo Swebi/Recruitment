@@ -10,9 +10,8 @@ import { generateSteps } from "@/utils/generateSteps";
 import StepNavigation from "./stepNavigation";
 import NavigationControls from "./navigationControls";
 import { submitResponse } from "@/actions/actions";
-import { webDevQs } from "@/data/techQs";
-import { useSearchParams } from "next/navigation";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -32,16 +31,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { generateQs } from "@/utils/generateQs";
+import { ToastAction } from "./ui/toast";
+import { Loader2 } from "lucide-react";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
 export default function Form() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const domain = searchParams.get("domain") || "";
   const subdomain = searchParams.get("subdomain") || "";
+  const { toast } = useToast();
 
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -99,6 +103,11 @@ export default function Form() {
     }
   };
 
+  if (domain === "" || subdomain === "") {
+    router.push("/");
+    return null;
+  }
+
   return (
     <Card className="w-full max-w-4xl mx-auto bg-gray-800 border-none text-white">
       <CardHeader>
@@ -108,7 +117,52 @@ export default function Form() {
       <CardContent>
         <StepNavigation steps={steps} currentStep={currentStep} />
 
-        <form className="mt-8 space-y-8">
+        <form
+          className="mt-8 space-y-8"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (currentStep === steps.length - 1) {
+              setIsSubmitting(true);
+              try {
+                const response = await submitResponse(formData);
+                if (response.success) {
+                  toast({
+                    title: "Your response has been submitted",
+                    className: "dark text-white border-white/10",
+                    action: (
+                      <ToastAction
+                        altText="Finish"
+                        onClick={() => {
+                          router.push(`/`);
+                        }}
+                      >
+                        Finish
+                      </ToastAction>
+                    ),
+                  });
+                  router.push("/");
+                } else {
+                  toast({
+                    variant: "destructive",
+                    title: response.message as string,
+                    action: (
+                      <ToastAction
+                        altText="Try again"
+                        onClick={() => {
+                          router.push(`/`);
+                        }}
+                      >
+                        Try again
+                      </ToastAction>
+                    ),
+                  });
+                }
+              } finally {
+                setIsSubmitting(false);
+              }
+            }
+          }}
+        >
           {steps[currentStep].fields && (
             <motion.div
               initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -184,12 +238,18 @@ export default function Form() {
               <h2 className="text-xl font-semibold">Complete</h2>
               <p className="text-gray-300">Thank you for filling the form</p>
               <Button
-                onClick={() => {
-                  submitResponse(formData);
-                }}
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                type="submit"
+                className="w-fit bg-primary text-primary-foreground hover:bg-primary/90"
+                disabled={isSubmitting}
               >
-                Submit
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </div>
           )}
