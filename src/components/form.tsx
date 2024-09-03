@@ -3,24 +3,43 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { z } from "zod";
-import { FormDataSchema, response } from "@/lib/schema";
+import { FormDataSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { generateSteps } from "@/data/steps";
+import { useForm } from "react-hook-form";
+import { generateSteps } from "@/utils/generateSteps";
 import StepNavigation from "./stepNavigation";
 import NavigationControls from "./navigationControls";
 import { submitResponse } from "@/actions/actions";
 import { webDevQs } from "@/data/techQs";
+import { useSearchParams } from "next/navigation";
+
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { generateQs } from "@/utils/generateQs";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
-export default function Form({
-  domain,
-  subdomain,
-}: {
-  domain: string;
-  subdomain: string;
-}) {
+export default function Form() {
+  const searchParams = useSearchParams();
+  const domain = searchParams.get("domain") || "";
+  const subdomain = searchParams.get("subdomain") || "";
+
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -36,8 +55,8 @@ export default function Form({
     github: "",
     resume: "",
     year: "First",
-    domain: "",
-    subdomain: "",
+    domain: domain,
+    subdomain: subdomain,
     q1: "",
     q2: "",
     q3: "",
@@ -53,15 +72,16 @@ export default function Form({
     formState: { errors },
   } = useForm<Inputs>({
     resolver: zodResolver(FormDataSchema),
-    defaultValues: formData, // Set default values for the form
+    defaultValues: formData,
   });
 
   type FieldName = keyof Inputs;
 
-  const steps = generateSteps(webDevQs);
+  const questions = generateQs(subdomain) || [];
+  const steps = generateSteps(questions);
 
   const next = async () => {
-    const fields = steps[currentStep].fields?.map((field) => field.name);
+    const fields = steps[currentStep].fields?.map((field: any) => field.name);
     const output = await trigger(fields as FieldName[], { shouldFocus: true });
 
     if (!output) return;
@@ -80,55 +100,49 @@ export default function Form({
   };
 
   return (
-    <section className="flex flex-col justify-between p-0">
-      {/* Steps Navigation */}
-      <StepNavigation steps={steps} currentStep={currentStep} />
+    <Card className="w-full max-w-4xl mx-auto bg-gray-800 border-none text-white">
+      <CardHeader>
+        <CardTitle>{steps[currentStep].name}</CardTitle>
+        <CardDescription>{steps[currentStep].description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <StepNavigation steps={steps} currentStep={currentStep} />
 
-      {/* Dynamic Form Fields */}
-      <form className="mt-12 py-12">
-        {steps[currentStep].fields && (
-          <motion.div
-            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
-            <h2 className="text-base font-semibold leading-7 text-gray-900">
-              {steps[currentStep].name}
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              {steps[currentStep].description}
-            </p>
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              {steps[currentStep].fields?.map((field, index) => (
-                <div key={field.name} className="sm:col-span-3">
-                  <label
-                    htmlFor={field.name}
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    {field.label}
-                  </label>
-                  <div className="mt-2">
+        <form className="mt-8 space-y-8">
+          {steps[currentStep].fields && (
+            <motion.div
+              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {steps[currentStep].fields?.map((field: any) => (
+                  <div key={field.name} className="space-y-2">
+                    <Label htmlFor={field.name} className="text-white">
+                      {field.label}
+                    </Label>
                     {field.type === "select" ? (
-                      <select
-                        id={field.name}
-                        {...register(field.name as FieldName, {
-                          onChange: (e) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              [field.name]: e.target.value,
-                            })),
-                        })}
-                        autoComplete={field.autoComplete}
-                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      <Select
+                        onValueChange={(value) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            [field.name]: value,
+                          }))
+                        }
                       >
-                        {field.options.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
+                        <SelectTrigger className="w-full bg-gray-700 text-white border-gray-600">
+                          <SelectValue placeholder="Select an option" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-700 text-white border-gray-600">
+                          {field.options.map((option: string) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     ) : steps[currentStep].name === "Questions" ? (
-                      <textarea
+                      <Textarea
                         id={field.name}
                         {...register(field.name as FieldName, {
                           onChange: (e) =>
@@ -137,12 +151,10 @@ export default function Form({
                               [e.target.name]: e.target.value,
                             })),
                         })}
-                        autoComplete={field.autoComplete}
-                        className="flex h-[40vh] w-full resize-none rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-                        rows={4}
+                        className="h-[40vh] bg-gray-700 text-white border-gray-600"
                       />
                     ) : (
-                      <input
+                      <Input
                         type={field.type}
                         id={field.name}
                         {...register(field.name as FieldName, {
@@ -153,50 +165,43 @@ export default function Form({
                             })),
                         })}
                         autoComplete={field.autoComplete}
-                        className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                        className="bg-gray-700 text-white border-gray-600"
                       />
                     )}
                     {errors[field.name as FieldName]?.message && (
-                      <p className="mt-2 text-sm text-red-400">
+                      <p className="text-sm text-red-400">
                         {errors[field.name as FieldName]?.message}
                       </p>
                     )}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {currentStep === steps.length - 1 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Complete</h2>
+              <p className="text-gray-300">Thank you for filling the form</p>
+              <Button
+                onClick={() => {
+                  submitResponse(formData);
+                }}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                Submit
+              </Button>
             </div>
-          </motion.div>
-        )}
+          )}
+        </form>
 
-        {currentStep === steps.length - 1 && (
-          <>
-            <h2 className="text-base font-semibold leading-7 text-gray-900">
-              Complete
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              Thank you for filling the form
-            </p>
-            {/* Submit Button */}
-            <button
-              onClick={() => {
-                submitResponse(formData);
-              }}
-              // type="submit"
-              className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-            >
-              Submit
-            </button>
-          </>
-        )}
-      </form>
-
-      {/* Navigation */}
-      <NavigationControls
-        steps={steps}
-        currentStep={currentStep}
-        next={next}
-        prev={prev}
-      />
-    </section>
+        <NavigationControls
+          steps={steps}
+          currentStep={currentStep}
+          next={next}
+          prev={prev}
+        />
+      </CardContent>
+    </Card>
   );
 }

@@ -21,10 +21,10 @@ model Responses {
   id         String  @id @default(cuid())
   firstName  String
   lastName   String
-  email      String
-  srmEmail   String
+  email      String  @unique
+  srmEmail   String  @unique
   phone      String
-  regno      String
+  regno      String  @unique
   year       String
   course     String
   department String
