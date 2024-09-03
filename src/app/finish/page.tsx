@@ -41,7 +41,7 @@ export default function Component() {
         <CardContent className="text-center text-gray-300">
           <p className="mb-4">
             We appreciate your interest in joining dBug Labs. Our team will
-            review your application, and we'll get back to you shortly.
+            review your application, and we&apos;ll get back to you shortly.
           </p>
           <p>
             In the meantime, feel free to connect with us on our social media

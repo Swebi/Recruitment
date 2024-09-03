@@ -63,7 +63,7 @@ export default function Component() {
       <Card className="w-full max-w-2xl p-2 md:p-8 bg-gray-800 border-gray-700">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-white">
-            dBug Labs Recruitment'24
+            dBug Labs Recruitment&apos;24
           </CardTitle>
           <CardDescription className="text-center text-gray-300">
             Please select your domain and subdomain to proceed to the
