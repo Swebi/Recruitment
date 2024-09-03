@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { z } from "zod";
 import { FormDataSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { generateSteps } from "@/utils/generateSteps";
 import StepNavigation from "./stepNavigation";
 import NavigationControls from "./navigationControls";
@@ -58,7 +58,7 @@ export default function Form() {
     linkedin: "",
     github: "",
     resume: "",
-    year: "First",
+    year: "",
     domain: domain,
     subdomain: subdomain,
     q1: "",
@@ -72,13 +72,13 @@ export default function Form() {
 
   const {
     register,
+    control,
     trigger,
     formState: { errors },
   } = useForm<Inputs>({
     resolver: zodResolver(FormDataSchema),
     defaultValues: formData,
   });
-
   type FieldName = keyof Inputs;
 
   const questions = generateQs(subdomain) || [];
@@ -104,7 +104,7 @@ export default function Form() {
   };
 
   if (domain === "" || subdomain === "") {
-    router.push("/");
+    router.push("/finish");
     return null;
   }
 
@@ -176,25 +176,24 @@ export default function Form() {
                       {field.label}
                     </Label>
                     {field.type === "select" ? (
-                      <Select
-                        onValueChange={(value) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            [field.name]: value,
-                          }))
-                        }
-                      >
-                        <SelectTrigger className="w-full bg-gray-700 text-white border-gray-600">
-                          <SelectValue placeholder="Select an option" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-gray-700 text-white border-gray-600">
-                          {field.options.map((option: string) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Controller
+                        name={field.name as keyof Inputs}
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Select onValueChange={onChange} value={value}>
+                            <SelectTrigger className="w-full bg-gray-700 text-white border-gray-600">
+                              <SelectValue placeholder="Select an option" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-gray-700 text-white border-gray-600">
+                              {field.options.map((option: string) => (
+                                <SelectItem key={option} value={option}>
+                                  {option}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
                     ) : steps[currentStep].name === "Questions" ? (
                       <Textarea
                         id={field.name}
@@ -205,7 +204,7 @@ export default function Form() {
                               [e.target.name]: e.target.value,
                             })),
                         })}
-                        className="h-[40vh] bg-gray-700 text-white border-gray-600"
+                        className="h-[40vh] resize-none bg-gray-700 text-white border-gray-600"
                       />
                     ) : (
                       <Input
