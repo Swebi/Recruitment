@@ -25,9 +25,9 @@ const fadeIn = {
 };
 
 export default function Component() {
-  useEffect(() => {
-    const router = useRouter();
+  const router = useRouter();
 
+  useEffect(() => {
     if (process.env.NEXT_PUBLIC_RECRUITMENT_CLOSED === "true") {
       router.push("/closed");
     }
