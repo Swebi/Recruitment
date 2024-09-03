@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { FormDataSchema } from "@/lib/schema";
@@ -9,7 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { generateSteps } from "@/utils/generateSteps";
 import StepNavigation from "./stepNavigation";
 import NavigationControls from "./navigationControls";
-import { submitResponse } from "@/actions/actions";
+import { addCount, submitResponse } from "@/actions/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -43,6 +43,10 @@ export default function Form() {
   const subdomain = searchParams.get("subdomain") || "";
   const { toast } = useToast();
 
+  useEffect(() => {
+    addCount();
+  }, []);
+
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +62,7 @@ export default function Form() {
     linkedin: "",
     github: "",
     resume: "",
-    year: "",
+    year: "First",
     domain: domain,
     subdomain: subdomain,
     q1: "",

@@ -10,11 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Questions {
-  id        String @id @default(cuid())
-  domain    String
-  subdomain String
-  question  String
+model Count {
+  id     String @id @default(cuid())
+  name   String
+  visits Int
 }
 
 model Responses {

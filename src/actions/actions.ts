@@ -39,3 +39,31 @@ export async function submitResponse(formData: response) {
     };
   }
 }
+
+export async function addCount() {
+  try {
+    await prisma.count.upsert({
+      where: {
+        id: "count",
+        name: "count",
+      },
+      update: {
+        visits: {
+          increment: 1,
+        },
+      },
+      create: {
+        id: "count",
+        name: "count",
+        visits: 0,
+      },
+    });
+
+    return { success: true, message: "Added Count" };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Error",
+    };
+  }
+}
