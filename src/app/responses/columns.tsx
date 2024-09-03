@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { generateQs } from "@/utils/generateQs";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -118,18 +119,39 @@ export const columns: ColumnDef<response>[] = [
     id: "actions",
     cell: ({ row }) => {
       const response = row.original;
+      const subdomain = response.subdomain;
+      const questions = generateQs(subdomain);
 
       return (
         <Dialog>
-          <DialogTrigger className="dark">View</DialogTrigger>
+          <DialogTrigger className="dark px-4 border rounded-lg py-2">
+            View
+          </DialogTrigger>
           <DialogContent className="dark">
             <DialogHeader>
               <DialogTitle className="text-white">
-                Are you absolutely sure?
+                {response.firstName} {response.lastName}
               </DialogTitle>
               <DialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                <div className="flex flex-col gap-4">
+                  <p>Email: {response.email}</p>
+                  <p>SRM Email: {response.srmEmail}</p>
+                  <p>Phone: {response.phone}</p>
+                  <p>Registration Number: {response.regno}</p>
+                  <p>Year: {response.year}</p>
+                  <p>Course: {response.course}</p>
+                  <p>Department: {response.department}</p>
+                  <p>LinkedIn: {response.linkedin}</p>
+                  <p>GitHub: {response.github}</p>
+                  {response.resume && <p>Resume: {response.resume}</p>}
+                  <p className="title">Domain: {response.domain}</p>
+                  <p>Subdomain: {response.subdomain}</p>
+                  {questions?.map((question, index) => (
+                    <p key={index}>
+                      {question}: <br /> {(response as any)[`q${index + 1}`]}
+                    </p>
+                  ))}
+                </div>
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
