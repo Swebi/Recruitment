@@ -1,15 +1,15 @@
 export const webDevQs = [
   "Web Dev Q1",
-  "What skills do you bring to the team?",
-  "Describe a challenge you overcame.",
-  "What are your goals for this year?",
-  "What are your goals for this year?",
+  "Web Dev Q2",
+  "Web Dev Q3",
+  "Web Dev Q4",
+  "Web Dev Q5",
 ];
 
 export const appDevQs = [
   "App Dev Q1",
-  "What skills do you bring to the team?",
-  "Describe a challenge you overcame.",
-  "What are your goals for this year?",
-  "What are your goals for this year?",
+  "App Dev Q2",
+  "App Dev Q3",
+  "App Dev Q4",
+  "App Dev Q5",
 ];

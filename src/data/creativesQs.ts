@@ -1,8 +1,7 @@
 export const creativesQs = [
   "Creatives Q1",
-
-  "Why do you want to join the club?",
-  "What skills do you bring to the team?",
-  "Describe a challenge you overcame.",
-  "What are your goals for this year?",
+  "Creatives Q2",
+  "Creatives Q3",
+  "Creatives Q4",
+  "Creatives Q5",
 ];
