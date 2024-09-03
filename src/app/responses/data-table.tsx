@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
     <>
       <div className="flex items-center gap-2 py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filter name"
           value={
             (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
           }
@@ -128,7 +128,10 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="dark text-white">
+                    <TableCell
+                      key={cell.id}
+                      className="dark text-white max-w-[400px] overflow-x-scroll hideScroll"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

@@ -7,3 +7,11 @@ export const sponsorshipQs = [
   "Sponsorship Q4",
   "Sponsorship Q5",
 ];
+
+export const eventsQs = [
+  "Sponsorship Q1",
+  "Sponsorship Q2",
+  "Sponsorship Q3",
+  "Sponsorship Q4",
+  "Sponsorship Q5",
+];

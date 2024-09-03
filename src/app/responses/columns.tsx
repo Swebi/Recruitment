@@ -20,6 +20,65 @@ import { generateQs } from "@/utils/generateQs";
 
 export const columns: ColumnDef<response>[] = [
   {
+    id: "actions",
+    cell: ({ row }) => {
+      const response = row.original;
+      const subdomain = response.subdomain;
+      const questions = generateQs(subdomain);
+
+      return (
+        <Dialog>
+          <DialogTrigger className="dark px-4 border rounded-lg py-2">
+            View
+          </DialogTrigger>
+          <DialogContent className="dark max-w-screen-lg overflow-y-scroll max-h-screen">
+            <DialogHeader>
+              <DialogTitle className="text-white">
+                {response.firstName} {response.lastName}
+              </DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4 text-white">
+              <p>Email: {response.email}</p>
+              <p>SRM Email: {response.srmEmail}</p>
+              <p>Phone: {response.phone}</p>
+              <p>Registration Number: {response.regno}</p>
+              <p>Year: {response.year}</p>
+              <p>Course: {response.course}</p>
+              <p>Department: {response.department}</p>
+              <p>
+                LinkedIn:
+                <a href={response.linkedin} className="break-words">
+                  {response.linkedin}
+                </a>
+              </p>
+              <p>
+                GitHub:
+                <a href={response.github} className="break-words">
+                  {response.github}
+                </a>
+              </p>
+              {response.resume && <p>Resume: {response.resume}</p>}
+              <p className="title">Domain: {response.domain}</p>
+              <p>Subdomain: {response.subdomain}</p>
+              {questions?.map((question, index) => (
+                <div
+                  className=" w-[400px] md:w-[600px] flex flex-col"
+                  key={index}
+                >
+                  <p>{question}: </p>
+                  <p className="text-wrap whitespace-pre-wrap break-words">
+                    {(response as any)[`q${index + 1}`]}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+      );
+    },
+  },
+  {
     accessorKey: "firstName",
     header: "First Name",
   },
@@ -114,49 +173,5 @@ export const columns: ColumnDef<response>[] = [
   {
     accessorKey: "q5",
     header: "Question 5",
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const response = row.original;
-      const subdomain = response.subdomain;
-      const questions = generateQs(subdomain);
-
-      return (
-        <Dialog>
-          <DialogTrigger className="dark px-4 border rounded-lg py-2">
-            View
-          </DialogTrigger>
-          <DialogContent className="dark">
-            <DialogHeader>
-              <DialogTitle className="text-white">
-                {response.firstName} {response.lastName}
-              </DialogTitle>
-              <DialogDescription>
-                <div className="flex flex-col gap-4">
-                  <p>Email: {response.email}</p>
-                  <p>SRM Email: {response.srmEmail}</p>
-                  <p>Phone: {response.phone}</p>
-                  <p>Registration Number: {response.regno}</p>
-                  <p>Year: {response.year}</p>
-                  <p>Course: {response.course}</p>
-                  <p>Department: {response.department}</p>
-                  <p>LinkedIn: {response.linkedin}</p>
-                  <p>GitHub: {response.github}</p>
-                  {response.resume && <p>Resume: {response.resume}</p>}
-                  <p className="title">Domain: {response.domain}</p>
-                  <p>Subdomain: {response.subdomain}</p>
-                  {questions?.map((question, index) => (
-                    <p key={index}>
-                      {question}: <br /> {(response as any)[`q${index + 1}`]}
-                    </p>
-                  ))}
-                </div>
-              </DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
-      );
-    },
   },
 ];

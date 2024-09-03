@@ -33,14 +33,21 @@ import {
 import { generateQs } from "@/utils/generateQs";
 import { ToastAction } from "./ui/toast";
 import { Loader2 } from "lucide-react";
+import { domainsCheck, subDomainsCheck } from "@/data/domains";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
 export default function Form() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const domain = searchParams.get("domain") || "";
-  const subdomain = searchParams.get("subdomain") || "";
+  const domain = searchParams.get("domain") || ("" as string);
+  const subdomain = searchParams.get("subdomain") || ("" as string);
+
+  if (domainsCheck.includes(domain) && subDomainsCheck.includes(subdomain)) {
+    //
+  } else {
+    router.push("/");
+  }
   const { toast } = useToast();
 
   useEffect(() => {
@@ -179,25 +186,27 @@ export default function Form() {
                     <Label htmlFor={field.name} className="text-white">
                       {field.label}
                     </Label>
-                    {field.type === "select" ? (
-                      <Controller
-                        name={field.name as keyof Inputs}
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Select onValueChange={onChange} value={value}>
-                            <SelectTrigger className="w-full bg-gray-700 text-white border-gray-600">
-                              <SelectValue placeholder="Select an option" />
-                            </SelectTrigger>
-                            <SelectContent className="bg-gray-700 text-white border-gray-600">
-                              {field.options.map((option: string) => (
-                                <SelectItem key={option} value={option}>
-                                  {option}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
+                    {field.type === "select" && field.name === "year" ? (
+                      <Select
+                        onValueChange={(value: string) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            ["year"]: value,
+                          }));
+                        }}
+                        defaultValue="First"
+                      >
+                        <SelectTrigger className="w-full bg-gray-700 text-white border-gray-600">
+                          <SelectValue placeholder="Select an option" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-700 text-white border-gray-600">
+                          {field.options.map((option: string) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     ) : steps[currentStep].name === "Questions" ? (
                       <Textarea
                         id={field.name}
@@ -268,3 +277,4 @@ export default function Form() {
     </Card>
   );
 }
+

@@ -1,6 +1,6 @@
 import { creativesQs } from "@/data/creativesQs";
 import { appDevQs, webDevQs } from "../data/techQs";
-import { prQs, sponsorshipQs } from "@/data/corporateQs";
+import { eventsQs, prQs, sponsorshipQs } from "@/data/corporateQs";
 
 export function generateQs(subdomain: string) {
   switch (subdomain) {
@@ -14,5 +14,7 @@ export function generateQs(subdomain: string) {
       return prQs;
     case "Sponsorship":
       return sponsorshipQs;
+    case "Events":
+      return eventsQs;
   }
 }

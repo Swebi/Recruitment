@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,18 +15,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-
-const domains = [
-  { id: "technical", name: "Technical" },
-  { id: "creatives", name: "Creatives" },
-  { id: "corporate", name: "Corporate" },
-];
-
-const subdomains = {
-  technical: ["Web Development", "App Development"],
-  creatives: ["Creatives"],
-  corporate: ["PR", "Sponsorship"],
-};
+import { domains, subdomains } from "@/data/domains";
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -82,7 +71,7 @@ export default function Component() {
                 className="space-y-4"
               >
                 <h2 className="text-lg font-semibold text-white">
-                  Step 1: Select Your Domain
+                  Select Your Domain
                 </h2>
                 <RadioGroup
                   onValueChange={handleDomainSelect}
@@ -116,7 +105,7 @@ export default function Component() {
                 className="space-y-4"
               >
                 <h2 className="text-lg font-semibold text-white">
-                  Step 2: Select Your Subdomain
+                  Select Your Subdomain
                 </h2>
                 <RadioGroup
                   onValueChange={handleSubdomainSelect}

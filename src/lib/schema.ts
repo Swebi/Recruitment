@@ -6,7 +6,11 @@ export const FormDataSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email address"),
   srmEmail: z.string().endsWith("@srmist.edu.in", "Invalid email address"),
   phone: z.string().min(10, "Phone number is required"),
-  regno: z.string().startsWith("RA").min(15, "Registeration number Invalid "),
+  regno: z
+    .string()
+    .startsWith("RA")
+    .min(15)
+    .max(15, "Registeration number Invalid "),
   year: z.string().min(1, "Year is required"),
   course: z.string().min(1, "Course is required"),
   department: z.string().min(1, "Department is required"),
