@@ -12,36 +12,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+
 import { Users, Code, Paintbrush, Building, ChevronDown } from "lucide-react";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getSortedRowModel,
-  SortingState,
-  getFilteredRowModel,
-  ColumnFiltersState,
-} from "@tanstack/react-table";
+
 import { DomainCard } from "@/components/domainCard";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { getAllResponses } from "@/actions/actions";
+import {
+  getAllResponses,
+  getDomainCount,
+  getResponseCount,
+} from "@/actions/actions";
 import { response } from "@/lib/schema";
-
-const domainCounts = {
-  Technical: 10,
-  Creatives: 5,
-  Corporate: 8,
-};
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -52,12 +34,25 @@ export default function Dashboard() {
   const { userId } = useAuth();
   const [responses, setResponses] = useState<response[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [techCount, setTechCount] = useState(0);
+  const [creativesCount, setCreativeCount] = useState(0);
+  const [corporateCount, setCorporateCount] = useState(0);
+  const [totalResponses, setTotalResponses] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const data = await getAllResponses();
+        const totalResponses = await getResponseCount();
+        const techCount = await getDomainCount("technical");
+        const creativesCount = await getDomainCount("creatives");
+        const corporateCount = await getDomainCount("corporate");
+
         setResponses(data);
+        setTotalResponses(totalResponses);
+        setTechCount(techCount);
+        setCreativeCount(creativesCount);
+        setCorporateCount(corporateCount);
       } catch (error) {
         console.error("Error fetching responses:", error);
       } finally {
@@ -68,15 +63,13 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  const totalResponses = Object.values(domainCounts).reduce((a, b) => a + b, 0);
-
   return (
     <>
       <div className="absolute top-5 right-5">
         {userId ? <UserButton /> : ""}
       </div>
       <motion.div
-        className="min-h-screen bg-gray-900 p-6"
+        className="min-h-screen bg-gray-900 p-6 md:p-16"
         initial="hidden"
         animate="visible"
         variants={fadeIn}
@@ -102,17 +95,17 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <DomainCard
               domain="Technical"
-              count={domainCounts.Technical}
+              count={techCount}
               icon={<Code className="h-4 w-4 text-blue-400" />}
             />
             <DomainCard
               domain="Creatives"
-              count={domainCounts.Creatives}
               icon={<Paintbrush className="h-4 w-4 text-green-400" />}
+              count={creativesCount}
             />
             <DomainCard
               domain="Corporate"
-              count={domainCounts.Corporate}
+              count={corporateCount}
               icon={<Building className="h-4 w-4 text-yellow-400" />}
             />
           </div>

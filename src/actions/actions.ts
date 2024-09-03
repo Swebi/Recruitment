@@ -49,6 +49,50 @@ export async function getAllResponses() {
   }
 }
 
+export async function getResponseCount() {
+  try {
+    const count = await prisma.responses.count();
+    return count;
+  } catch (error) {
+    return 0;
+  }
+}
+
+export async function getDomainCount(domain: string) {
+  try {
+    const count = await prisma.responses.count({
+      where: {
+        domain,
+      },
+    });
+    return count;
+  } catch (error) {
+    return 0;
+  }
+}
+
+export async function getSubDomainCount(subdomain: string) {
+  try {
+    const count = await prisma.responses.count({
+      where: {
+        subdomain,
+      },
+    });
+    return count;
+  } catch (error) {
+    return 0;
+  }
+}
+
+export async function getCount(domain: string) {
+  try {
+    const responses = await prisma.responses.findMany();
+    return responses;
+  } catch (error) {
+    return []; // Return an empty array on error
+  }
+}
+
 export async function addCount() {
   try {
     await prisma.count.upsert({
