@@ -104,7 +104,7 @@ export default function Form() {
   };
 
   if (domain === "" || subdomain === "") {
-    router.push("/finish");
+    router.push("/");
     return null;
   }
 
@@ -133,14 +133,14 @@ export default function Form() {
                       <ToastAction
                         altText="Finish"
                         onClick={() => {
-                          router.push(`/`);
+                          router.push(`/finish`);
                         }}
                       >
                         Finish
                       </ToastAction>
                     ),
                   });
-                  router.push("/");
+                  router.push("/finish");
                 } else {
                   toast({
                     variant: "destructive",

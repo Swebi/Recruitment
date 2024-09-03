@@ -6,7 +6,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function submitResponse(formData: response) {
-  console.log(formData);
   try {
     await prisma.responses.create({
       data: {

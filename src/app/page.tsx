@@ -55,7 +55,7 @@ export default function Component() {
 
   return (
     <motion.div
-      className="min-h-screen bg-gray-900 flex items-center justify-center p-6"
+      className="min-h-screen bg-gray-900 flex items-start pt-[15vh] justify-center p-6"
       initial="hidden"
       animate="visible"
       variants={fadeIn}
