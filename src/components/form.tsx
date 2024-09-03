@@ -9,7 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { generateSteps } from "@/utils/generateSteps";
 import StepNavigation from "./stepNavigation";
 import NavigationControls from "./navigationControls";
-import { addCount, submitResponse } from "@/actions/actions";
+import { submitResponse } from "@/actions/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -50,9 +50,9 @@ export default function Form() {
   }
   const { toast } = useToast();
 
-  useEffect(() => {
-    addCount();
-  }, []);
+  // useEffect(() => {
+  //   addCount();
+  // }, []);
 
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
@@ -277,4 +277,3 @@ export default function Form() {
     </Card>
   );
 }
-

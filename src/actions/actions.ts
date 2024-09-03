@@ -42,7 +42,11 @@ export async function submitResponse(formData: response) {
 
 export async function getAllResponses() {
   try {
-    const responses = await prisma.responses.findMany();
+    const responses = await prisma.responses.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     return responses;
   } catch (error) {
     return []; // Return an empty array on error
@@ -93,30 +97,30 @@ export async function getCount(domain: string) {
   }
 }
 
-export async function addCount() {
-  try {
-    await prisma.count.upsert({
-      where: {
-        id: "count",
-        name: "count",
-      },
-      update: {
-        visits: {
-          increment: 1,
-        },
-      },
-      create: {
-        id: "count",
-        name: "count",
-        visits: 0,
-      },
-    });
+// export async function addCount() {
+//   try {
+//     await prisma.count.upsert({
+//       where: {
+//         id: "count",
+//         name: "count",
+//       },
+//       update: {
+//         visits: {
+//           increment: 1,
+//         },
+//       },
+//       create: {
+//         id: "count",
+//         name: "count",
+//         visits: 0,
+//       },
+//     });
 
-    return { success: true, message: "Added Count" };
-  } catch (error) {
-    return {
-      success: false,
-      message: "Error",
-    };
-  }
-}
+//     return { success: true, message: "Added Count" };
+//   } catch (error) {
+//     return {
+//       success: false,
+//       message: "Error",
+//     };
+//   }
+// }

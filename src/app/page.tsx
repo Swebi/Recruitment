@@ -1,6 +1,7 @@
 "use client";
+import { useRouter } from "next/navigation";
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +25,14 @@ const fadeIn = {
 };
 
 export default function Component() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_RECRUITMENT_CLOSED === "true") {
+      router.push("/closed");
+    }
+  }, []); // Make sure to include an empty dependency array to run this effect once on mount
+
   const [step, setStep] = useState(1);
   const [selectedDomain, setSelectedDomain] = useState("");
   const [selectedSubdomain, setSelectedSubdomain] = useState("");

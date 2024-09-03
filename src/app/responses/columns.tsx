@@ -128,17 +128,7 @@ export const columns: ColumnDef<response>[] = [
   },
   {
     accessorKey: "domain",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Domain
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "domain",
   },
   {
     accessorKey: "subdomain",
@@ -148,7 +138,7 @@ export const columns: ColumnDef<response>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Domain
+          Subdomain
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
