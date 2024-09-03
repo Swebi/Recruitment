@@ -40,6 +40,15 @@ export async function submitResponse(formData: response) {
   }
 }
 
+export async function getAllResponses() {
+  try {
+    const responses = await prisma.responses.findMany();
+    return responses;
+  } catch (error) {
+    return []; // Return an empty array on error
+  }
+}
+
 export async function addCount() {
   try {
     await prisma.count.upsert({

@@ -29,7 +29,7 @@ model Responses {
   department String
   linkedin   String
   github     String
-  resume     String?
+  resume     String? @default("")
   domain     String
   subdomain  String
   q1         String
