@@ -15,7 +15,7 @@ export const FormDataSchema = z.object({
   course: z.string().min(1, "Course is required"),
   department: z.string().min(1, "Department is required"),
   linkedin: z.string().url().min(1, "Linkedin is required"),
-  github: z.string().url().min(1, "Github is required"),
+  github: z.string(),
   resume: z.string(),
   domain: z.string(),
   subdomain: z.string(),

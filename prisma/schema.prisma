@@ -21,14 +21,14 @@ model Responses {
   firstName  String
   lastName   String
   email      String
-  srmEmail   String  @unique
+  srmEmail   String
   phone      String
-  regno      String  @unique
+  regno      String
   year       String
   course     String
   department String
   linkedin   String
-  github     String
+  github     String? @default("")
   resume     String? @default("")
   domain     String
   subdomain  String

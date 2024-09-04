@@ -108,7 +108,7 @@ export default function Form() {
   };
 
   const prev = () => {
-    if (currentStep > 0 && currentStep < steps.length - 1) {
+    if (currentStep > 0 && currentStep < steps.length) {
       setPreviousStep(currentStep);
       setCurrentStep((step) => step - 1);
     }
@@ -251,7 +251,7 @@ export default function Form() {
               <p className="text-gray-300">Thank you for filling the form</p>
               <Button
                 type="submit"
-                className="w-fit bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-fit bg-transparent text-primary-foreground hover:bg-primary/90"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
