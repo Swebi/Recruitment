@@ -37,7 +37,7 @@ export interface response {
   course: string;
   department: string;
   linkedin: string;
-  github: string;
+  github: string | null;
   resume: string | null;
   domain: string;
   subdomain: string;

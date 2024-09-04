@@ -54,7 +54,10 @@ export const columns: ColumnDef<response>[] = [
               </p>
               <p>
                 GitHub:
-                <a href={response.github} className="break-words">
+                <a
+                  href={response.github ? response.github : ""}
+                  className="break-words"
+                >
                   {response.github}
                 </a>
               </p>
