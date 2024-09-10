@@ -24,9 +24,9 @@ const fadeIn = {
 
 export default function Component() {
   const router = useRouter();
-  // if (process.env.RECRUITMENT_CLOSED !== "true") {
-  //   router.push("/");
-  // }
+  if (process.env.RECRUITMENT_CLOSED !== "true") {
+    router.push("/");
+  }
   return (
     <motion.div
       className="min-h-screen bg-foreground flex items-start pt-[15vh] justify-center p-6"

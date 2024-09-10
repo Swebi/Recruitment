@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+---
 
-First, run the development server:
+# Recruitment Portal
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+A full-stack recruitment portal designed for managing recruitment in an efficient way, with a multi-step application form for applicants and an admin dashboard for club members to review responses.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Multi-step Application Form**: Applicants fill out their details and answer domain-specific questions in a dynamic multi-step form.
+- **Admin Dashboard**: Club members can access a dashboard that provides:
+  - A summary of domain-wise responses.
+  - A searchable table to quickly find specific applications.
+- **Database Backups**: Automated backups to AWS S3 are set up using GitHub Actions.
+- **Animations**: Used Framer Motion to add smooth animations.
+- **Authentication**: Implemented using Clerk for the admin portal.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Screenshots
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+- **Next.js**
+- **TypeScript**
+- **PostgreSQL**
+- **Prisma**
+- **shadcn/ui**
+- **Framer Motion**
+- **Clerk**
+- **React Hook Form**
+- **Zod**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Configuration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Automated Database Backups
+Database backups are automated with GitHub Actions to ensure data is regularly stored in AWS S3. Follow the guide [here](https://joshstrange.com/2024/04/26/nightly-postgres-backups-via-github-actions/).
+
+### Portal Configuration
+
+##### WIP: Automating fetching the domains, qs instead of storing static data
+
+From src/app/data
+- **domains**: Domain and subdomain options for applicants to choose from.
+- **techQs**: A list of technical questions for each domain. (Similarly create for)
+
+From src/app/utils
+- **generateQs**: Returns the questions for each domain, pass the qs to this function
+
+
+
+## Setup Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Swebi/Recruitment.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up the environment variables in your `.env` file (refer env example):
+   ```
+    DATABASE_URL=
+    NEXT_PUBLIC_RECRUITMENT_CLOSED=
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+    CLERK_SECRET_KEY=
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+5. Prisma setup:
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
+
+---
