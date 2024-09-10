@@ -120,7 +120,7 @@ export default function Form() {
   }
 
   return (
-    <Card className="w-full max-w-4xl mx-auto bg-gray-800 border-none text-white">
+    <Card className="w-full max-w-4xl mx-auto bg-background border-none text-white">
       <CardHeader>
         <CardTitle>{steps[currentStep].name}</CardTitle>
         <CardDescription>{steps[currentStep].description}</CardDescription>
@@ -196,10 +196,10 @@ export default function Form() {
                         }}
                         defaultValue="First"
                       >
-                        <SelectTrigger className="w-full bg-gray-700 text-white border-gray-600">
+                        <SelectTrigger className="w-full bg-primary text-white border-primary">
                           <SelectValue placeholder="Select an option" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-700 text-white border-gray-600">
+                        <SelectContent className="bg-secondary text-white border-secondary">
                           {field.options.map((option: string) => (
                             <SelectItem key={option} value={option}>
                               {option}
@@ -217,7 +217,7 @@ export default function Form() {
                               [e.target.name]: e.target.value,
                             })),
                         })}
-                        className="h-[40vh] resize-none bg-gray-700 text-white border-gray-600"
+                        className="h-[40vh] resize-none bg-foreground text-white border-secondary active:border-primary"
                       />
                     ) : (
                       <Input
@@ -231,7 +231,7 @@ export default function Form() {
                             })),
                         })}
                         autoComplete={field.autoComplete}
-                        className="bg-gray-700 text-white border-gray-600"
+                        className="bg-foreground text-white border-secondary active:border-primary"
                       />
                     )}
                     {errors[field.name as FieldName]?.message && (
@@ -246,12 +246,12 @@ export default function Form() {
           )}
 
           {currentStep === steps.length - 1 && (
-            <div className="space-y-4">
+            <div className="flex flex-col gap-5">
               <h2 className="text-xl font-semibold">Complete</h2>
-              <p className="text-gray-300">Thank you for filling the form</p>
+              <p className="text-white">Thank you for filling the form</p>
               <Button
                 type="submit"
-                className="w-fit bg-transparent text-primary-foreground hover:bg-primary/90"
+                className="w-full  sm:max-w-[40%]  lg:max-w-[30%] bg-primary text-primary-foreground hover:bg-primary/90"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (

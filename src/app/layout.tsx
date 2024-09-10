@@ -27,7 +27,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <Navbar />
-          <div className="bg-black min-h-screen">{children}</div>
+          <div className="bg-foreground min-h-screen">{children}</div>
           <Toaster />
         </body>
       </html>

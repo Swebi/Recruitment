@@ -53,17 +53,17 @@ export default function Component() {
 
   return (
     <motion.div
-      className="min-h-screen bg-gray-900 flex items-start pt-[15vh] justify-center p-6"
+      className="min-h-screen bg-foreground flex items-start pt-[15vh] justify-center p-6"
       initial="hidden"
       animate="visible"
       variants={fadeIn}
     >
-      <Card className="w-full max-w-2xl p-2 md:p-8 bg-gray-800 border-gray-700">
+      <Card className="w-full max-w-2xl p-2 md:p-8 bg-background border-foreground">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-white">
             dBug Labs Recruitment&apos;24
           </CardTitle>
-          <CardDescription className="text-center text-gray-300">
+          <CardDescription className="text-center text-white">
             Please select your domain and subdomain to proceed to the
             recruitment form.
           </CardDescription>
@@ -95,7 +95,7 @@ export default function Component() {
                       />
                       <Label
                         htmlFor={domain.id}
-                        className="flex flex-col items-center justify-between rounded-md border-2 border-gray-600 bg-gray-700 p-4 hover:bg-gray-600 hover:text-white peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary text-gray-200"
+                        className="flex flex-col items-center justify-between rounded-md   bg-secondary hover:bg-primary p-4  hover:text-white peer-data-[state=checked]:bg-primary [&:has([data-state=checked])]: text-white"
                       >
                         {domain.name}
                       </Label>
@@ -130,7 +130,7 @@ export default function Component() {
                         />
                         <Label
                           htmlFor={subdomain}
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-gray-600 bg-gray-700 p-4 hover:bg-gray-600 hover:text-white peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary text-gray-200"
+                          className="flex flex-col items-center justify-between rounded-md   bg-secondary hover:bg-primary p-4  hover:text-white peer-data-[state=checked]:bg-primary [&:has([data-state=checked])]: text-white"
                         >
                           {subdomain}
                         </Label>
@@ -142,27 +142,28 @@ export default function Component() {
             )}
           </AnimatePresence>
         </CardContent>
-        <CardFooter className="flex justify-between">
+        <CardFooter className="flex justify-between mt-4">
           {step === 2 && (
             <Button
               variant="outline"
               onClick={handleBack}
-              className="bg-gray-700 text-white border-gray-600 hover:bg-gray-600 hover:text-white"
+              className="bg-black border border-secondary hover:bg-primary text-white hover:text-white"
             >
               Back
             </Button>
           )}
-          <Link
-            href={`/recruitment?domain=${selectedDomain}&subdomain=${selectedSubdomain}`}
-            className="ml-auto"
+
+          <Button
+            className="bg-black border text-primary-foreground  ml-auto"
+            disabled={step === 1 || !selectedSubdomain}
+            onClick={() => {
+              router.push(
+                `/recruitment?domain=${selectedDomain}&subdomain=${selectedSubdomain}`
+              );
+            }}
           >
-            <Button
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-              disabled={step === 1 || !selectedSubdomain}
-            >
-              Proceed to Form <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+            Proceed to Form <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
         </CardFooter>
       </Card>
     </motion.div>
