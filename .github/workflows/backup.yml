@@ -44,4 +44,4 @@ jobs:
       - name: Upload backup to S3
         run: |
           YEAR_MONTH=$(date -u +"%Y/%m")
-          aws s3 cp "${TIMESTAMP}.sql.gz" s3://$${{ secrets.AWS_BUCKETNAME }}/database/${YEAR_MONTH}/
+          aws s3 cp "${TIMESTAMP}.sql.gz" s3://dblrecruitment/database/${YEAR_MONTH}/
