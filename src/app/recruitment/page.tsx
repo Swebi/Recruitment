@@ -6,7 +6,7 @@ export default function Home() {
     redirect("/closed");
   }
   return (
-    <section className="p-12 md:p-24 overflow-x-hidden flex w-full h-full justify-center items-center bg-foreground">
+    <section className="py-6 px-6 md:p-24 overflow-x-hidden flex w-full h-full justify-center items-center bg-foreground">
       <div className="container">
         <Form />
       </div>
