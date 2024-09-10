@@ -88,14 +88,14 @@ export async function getSubDomainCount(subdomain: string) {
   }
 }
 
-export async function getCount(domain: string) {
-  try {
-    const responses = await prisma.responses.findMany();
-    return responses;
-  } catch (error) {
-    return []; // Return an empty array on error
-  }
-}
+// export async function getCount(domain: string) {
+//   try {
+//     const responses = await prisma.responses.findMany();
+//     return responses;
+//   } catch (error) {
+//     return []; // Return an empty array on error
+//   }
+// }
 
 // export async function addCount() {
 //   try {

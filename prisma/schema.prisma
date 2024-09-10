@@ -39,4 +39,6 @@ model Responses {
   q5         String
 
   createdAt DateTime @default(now())
+
+  @@unique([srmEmail, regno, subdomain])
 }
