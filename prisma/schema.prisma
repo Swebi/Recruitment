@@ -10,11 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Count {
-  id     String @id @default(cuid())
-  name   String
-  visits Int
-}
 
 model Responses {
   id         String  @id @default(cuid())
