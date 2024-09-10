@@ -17,6 +17,12 @@ A full-stack recruitment portal designed for managing recruitment in an efficien
 
 ## Screenshots
 
+#### User Form
+![image](https://github.com/user-attachments/assets/225dc099-3b59-48b1-8c1b-ec7b901b1335)
+![image](https://github.com/user-attachments/assets/8c959aba-e7d8-4520-b874-308804b52310)
+
+#### Admin Dashboard
+![image](https://github.com/user-attachments/assets/0fe7beb9-c464-4ef0-8164-86879cd82526)
 
 
 
