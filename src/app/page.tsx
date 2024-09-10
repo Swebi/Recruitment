@@ -53,7 +53,7 @@ export default function Component() {
 
   return (
     <motion.div
-      className="min-h-screen bg-foreground flex items-start pt-[15vh] justify-center p-6"
+      className="min-h-screen flex items-start pt-[15vh] justify-center p-6"
       initial="hidden"
       animate="visible"
       variants={fadeIn}
