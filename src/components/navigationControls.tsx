@@ -20,7 +20,7 @@ const NavigationControls = ({
           type="button"
           onClick={prev}
           disabled={currentStep === 0}
-          className="w-fit px-5 bg-primary text-primary-foreground hover:bg-primary disabled:bg-secondary"
+          className="w-fit px-5 bg-secondary text-primary-foreground hover:bg-primary disabled:bg-secondary"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ const NavigationControls = ({
           <Button
             type="button"
             onClick={next}
-            className="w-fit px-5 bg-primary text-primary-foreground hover:bg-primary disabled:bg-secondary"
+            className="w-fit px-5 bg-secondary text-primary-foreground hover:bg-primary disabled:bg-secondary"
           >
             Next
           </Button>

@@ -24,21 +24,21 @@ const fadeIn = {
 export default function Component() {
   return (
     <motion.div
-      className="min-h-screen bg-gray-900 flex items-start pt-[15vh] justify-center p-6"
+      className="min-h-screen bg-foreground flex items-start pt-[15vh] justify-center p-6"
       initial="hidden"
       animate="visible"
       variants={fadeIn}
     >
-      <Card className="w-full max-w-2xl p-2 md:p-8 bg-gray-800 border-gray-700">
+      <Card className="w-full max-w-2xl p-2 md:p-8 bg-background border-secondary">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-white">
             Thank You for Applying!
           </CardTitle>
-          <CardDescription className="text-center text-gray-300">
+          <CardDescription className="text-center text-white">
             Your response has been submitted successfully.
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-center text-gray-300">
+        <CardContent className="text-center text-white">
           <p className="mb-4">
             We appreciate your interest in joining dBug Labs. Our team will
             review your application, and we&apos;ll get back to you shortly.
@@ -51,14 +51,14 @@ export default function Component() {
         <CardFooter className="flex flex-col items-center space-y-4">
           <div className="flex space-x-4">
             <Link
-              href="https://www.linkedin.com/company/dbug-labs"
+              href="https://www.linkedin.com/company/dbuglabs"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Button
                 variant="outline"
                 size="icon"
-                className="bg-gray-700 text-white border-gray-600 hover:bg-gray-600 hover:text-white"
+                className="bg-secondary text-white border-secondary hover:bg-primary hover:text-white"
               >
                 <LinkedInLogoIcon className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
@@ -72,7 +72,7 @@ export default function Component() {
               <Button
                 variant="outline"
                 size="icon"
-                className="bg-gray-700 text-white border-gray-600 hover:bg-gray-600 hover:text-white"
+                className="bg-secondary text-white border-secondary hover:bg-primary hover:text-white"
               >
                 <InstagramLogoIcon className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
@@ -86,7 +86,7 @@ export default function Component() {
               <Button
                 variant="outline"
                 size="icon"
-                className="bg-gray-700 text-white border-gray-600 hover:bg-gray-600 hover:text-white"
+                className="bg-secondary text-white border-secondary hover:bg-primary hover:text-white"
               >
                 <TwitterLogoIcon className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>

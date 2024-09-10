@@ -16,7 +16,7 @@ export const DomainCard = ({
   count: number;
   icon: React.ReactNode;
 }) => (
-  <Card className="bg-gray-800 border-gray-700">
+  <Card className="bg-background border-secondary">
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
       <CardTitle className="text-sm font-medium text-white">{domain}</CardTitle>
       {icon}

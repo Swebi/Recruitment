@@ -70,13 +70,11 @@ export function DataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn("firstName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm text-white border-gray-700"
+          className="max-w-sm text-white border-primary"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
+            <Button className="ml-auto">Columns</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
@@ -102,7 +100,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-xl border p-5 border-gray-700 ">
+      <div className="rounded-xl border p-5 border-primary ">
         <Table className="">
           <TableHeader className="text-white">
             {table.getHeaderGroups().map((headerGroup) => (

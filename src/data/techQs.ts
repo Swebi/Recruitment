@@ -13,3 +13,5 @@ export const appDevQs = [
   "App Dev Q4",
   "App Dev Q5",
 ];
+
+export const mlQs = ["ML Q1", "ML Q2", "ML Q3", "ML Q4", "ML Q5"];

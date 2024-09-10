@@ -1,5 +1,5 @@
-import { creativesQs } from "@/data/creativesQs";
-import { appDevQs, webDevQs } from "../data/techQs";
+import { contentQs, uiuxQs, vfxgfxQs } from "@/data/creativesQs";
+import { appDevQs, mlQs, webDevQs } from "../data/techQs";
 import { eventsQs, prQs, sponsorshipQs } from "@/data/corporateQs";
 
 export function generateQs(subdomain: string) {
@@ -8,8 +8,14 @@ export function generateQs(subdomain: string) {
       return webDevQs;
     case "App Development":
       return appDevQs;
-    case "Creatives":
-      return creativesQs;
+    case "ML":
+      return mlQs;
+    case "UI/UX":
+      return uiuxQs;
+    case "VFX/GFX":
+      return vfxgfxQs;
+    case "Conntent":
+      return contentQs;
     case "PR":
       return prQs;
     case "Sponsorship":

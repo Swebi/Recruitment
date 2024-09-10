@@ -69,13 +69,13 @@ export default function Dashboard() {
         {userId ? <UserButton /> : ""}
       </div>
       <motion.div
-        className="min-h-screen bg-gray-900 p-6 md:p-16"
+        className="min-h-screen bg-foreground p-6 md:p-16"
         initial="hidden"
         animate="visible"
         variants={fadeIn}
       >
         <div className="flex flex-col max-w-7xl mx-auto space-y-6">
-          <Card className="bg-gray-800 border-gray-700">
+          <Card className="bg-background border-secondary">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-white">
                 Recruitment Dashboard
