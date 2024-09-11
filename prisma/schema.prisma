@@ -10,9 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Responses {
-  id         String  @id @default(cuid())
+  id         String   @id @default(cuid())
   firstName  String
   lastName   String
   email      String
@@ -23,8 +22,8 @@ model Responses {
   course     String
   department String
   linkedin   String
-  github     String? @default("")
-  resume     String? @default("")
+  github     String?  @default("")
+  resume     String?  @default("")
   domain     String
   subdomain  String
   q1         String
@@ -32,8 +31,9 @@ model Responses {
   q3         String
   q4         String
   q5         String
-
-  createdAt DateTime @default(now())
+  status     String?  @default("waitlist")
+  // waitlist(default) shortlist interview accepted rejected
+  createdAt  DateTime @default(now())
 
   @@unique([srmEmail, regno, subdomain])
 }

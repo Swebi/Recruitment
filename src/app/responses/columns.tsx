@@ -1,10 +1,10 @@
 "use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { response } from "@/lib/schema";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { MoreHorizontal } from "lucide-react";
-
 import {
   Dialog,
   DialogContent,
@@ -14,31 +14,41 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { generateQs } from "@/utils/generateQs";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import { setStatus } from "@/actions/actions";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { applicationStatus } from "@/data/status";
 
 export const columns: ColumnDef<response>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
       const response = row.original;
+      const id = response.id || "";
       const subdomain = response.subdomain;
       const questions = generateQs(subdomain);
+      const [open, setOpen] = useState(false);
+      const { toast } = useToast();
+      const router = useRouter();
 
       return (
-        <Dialog>
-          <DialogTrigger className="dark px-4 border rounded-lg py-2">
-            View
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" onClick={() => setOpen(true)}>
+              View
+            </Button>
           </DialogTrigger>
-          <DialogContent className="dark max-w-screen-lg overflow-y-scroll max-h-screen">
+          <DialogContent className="max-w-screen-lg overflow-y-auto max-h-screen">
             <DialogHeader>
-              <DialogTitle className="text-white">
+              <DialogTitle className="text-xl font-bold text-white">
                 {response.firstName} {response.lastName}
               </DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
-            <div className="flex flex-col gap-4 text-white">
+            <div className="flex flex-col gap-4 text-white font-light">
+              <p className="capitalize text-lg font-semibold">
+                Status: {response.status}
+              </p>
               <p>Email: {response.email}</p>
               <p>SRM Email: {response.srmEmail}</p>
               <p>Phone: {response.phone}</p>
@@ -75,10 +85,40 @@ export const columns: ColumnDef<response>[] = [
                   </p>
                 </div>
               ))}
+              <div className="flex gap-3">
+                {applicationStatus.map((status) => {
+                  return (
+                    <Button
+                      className="capitalize"
+                      onClick={async () => {
+                        const response = await setStatus(id, status);
+                        if (response.success) {
+                          toast({
+                            title: `Status has been updated to ${status}. Refresh the table`,
+                            className: "dark text-white border-white/10",
+                          });
+                          setOpen(false);
+                        }
+                      }}
+                    >
+                      {status}
+                    </Button>
+                  );
+                })}
+              </div>
             </div>
           </DialogContent>
         </Dialog>
       );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const data = row.original;
+      const status = data.status;
+      return <div className="capitalize">{status}</div>;
     },
   },
   {
@@ -132,6 +172,11 @@ export const columns: ColumnDef<response>[] = [
   {
     accessorKey: "domain",
     header: "domain",
+    cell: ({ row }) => {
+      const data = row.original;
+      const domain = data.domain;
+      return <div className="capitalize">{domain}</div>;
+    },
   },
   {
     accessorKey: "subdomain",

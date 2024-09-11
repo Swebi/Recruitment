@@ -13,7 +13,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { Users, Code, Paintbrush, Building, ChevronDown } from "lucide-react";
+import {
+  Users,
+  Code,
+  Paintbrush,
+  Building,
+  ChevronDown,
+  Loader2,
+  RefreshCw,
+} from "lucide-react";
 
 import { DomainCard } from "@/components/domainCard";
 import { DataTable } from "./data-table";
@@ -24,6 +32,7 @@ import {
   getResponseCount,
 } from "@/actions/actions";
 import { response } from "@/lib/schema";
+import { Button } from "@/components/ui/button";
 
 const fadeIn = {
   hidden: { opacity: 0 },
@@ -39,30 +48,40 @@ export default function Dashboard() {
   const [corporateCount, setCorporateCount] = useState(0);
   const [totalResponses, setTotalResponses] = useState(0);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getAllResponses();
-        const totalResponses = await getResponseCount();
-        const techCount = await getDomainCount("technical");
-        const creativesCount = await getDomainCount("creatives");
-        const corporateCount = await getDomainCount("corporate");
-
-        setResponses(data);
-        setTotalResponses(totalResponses);
-        setTechCount(techCount);
-        setCreativeCount(creativesCount);
-        setCorporateCount(corporateCount);
-      } catch (error) {
-        console.error("Error fetching responses:", error);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchCount() {
+    try {
+      const totalResponses = await getResponseCount();
+      const techCount = await getDomainCount("technical");
+      const creativesCount = await getDomainCount("creatives");
+      const corporateCount = await getDomainCount("corporate");
+      setTotalResponses(totalResponses);
+      setTechCount(techCount);
+      setCreativeCount(creativesCount);
+      setCorporateCount(corporateCount);
+    } catch (error) {
+      console.error("Error fetching responses:", error);
     }
+  }
 
+  async function fetchData() {
+    try {
+      const data = await getAllResponses();
+
+      setResponses(data);
+    } catch (error) {
+      console.error("Error fetching responses:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchCount();
+  }, []);
   return (
     <>
       <div className="absolute top-5 right-5">
@@ -112,9 +131,22 @@ export default function Dashboard() {
 
           <div>
             {loading ? (
-              <p className="text-white">Loading...</p>
+              <p className="text-white">Loading... </p>
             ) : (
-              <DataTable columns={columns} data={responses} />
+              <div className="flex flex-col w-full">
+                <Button
+                  className="w-fit self-end"
+                  onClick={() => {
+                    fetchData();
+                  }}
+                >
+                  <RefreshCw />
+                </Button>
+                <DataTable
+                  columns={columns}
+                  data={responses}
+                />
+              </div>
             )}
           </div>
         </div>

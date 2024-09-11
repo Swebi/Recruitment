@@ -1,9 +1,8 @@
 "use server";
 
 import { response } from "@/lib/schema";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function submitResponse(formData: response) {
   try {
@@ -85,5 +84,35 @@ export async function getSubDomainCount(subdomain: string) {
     return count;
   } catch (error) {
     return 0;
+  }
+}
+
+export async function setStatus(id: string, status: string) {
+  try {
+    const response = await prisma.responses.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status: status,
+      },
+    });
+    if (response) {
+      revalidatePath("/responses");
+      return {
+        success: true,
+        message: "Updated Status",
+      };
+    } else {
+      return {
+        success: false,
+        message: "Could Not Update",
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Error",
+    };
   }
 }

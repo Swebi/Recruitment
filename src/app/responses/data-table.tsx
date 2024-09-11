@@ -72,6 +72,32 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm text-white border-primary"
         />
+        <Input
+          placeholder="Filter domain"
+          value={(table.getColumn("domain")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("domain")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm text-white border-primary"
+        />
+        <Input
+          placeholder="Filter subdomain"
+          value={
+            (table.getColumn("subdomain")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("subdomain")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm text-white border-primary"
+        />
+        <Input
+          placeholder="Filter status"
+          value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("status")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm text-white border-primary"
+        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto">Columns</Button>
@@ -100,7 +126,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-xl border p-5 border-primary ">
+      <div className="rounded-xl border p-5 border-primary bg-background ">
         <Table className="">
           <TableHeader className="text-white">
             {table.getHeaderGroups().map((headerGroup) => (

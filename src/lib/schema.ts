@@ -27,6 +27,7 @@ export const FormDataSchema = z.object({
 });
 
 export interface response {
+  id?: string | null;
   firstName: string;
   lastName: string;
   email: string;
@@ -46,6 +47,7 @@ export interface response {
   q3: string;
   q4: string;
   q5: string;
+  status?: string | null;
 }
 
 export interface BaseField {
