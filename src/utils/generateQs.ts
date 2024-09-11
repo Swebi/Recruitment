@@ -14,7 +14,7 @@ export function generateQs(subdomain: string) {
       return uiuxQs;
     case "VFX/GFX":
       return vfxgfxQs;
-    case "Conntent":
+    case "Content":
       return contentQs;
     case "PR":
       return prQs;
