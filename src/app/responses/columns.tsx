@@ -85,7 +85,7 @@ export const columns: ColumnDef<response>[] = [
                   </p>
                 </div>
               ))}
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap max-w-[90%]">
                 {applicationStatus.map((status) => {
                   return (
                     <Button
