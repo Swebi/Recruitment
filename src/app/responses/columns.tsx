@@ -40,12 +40,12 @@ export const columns: ColumnDef<response>[] = [
           </DialogTrigger>
           <DialogContent className="max-w-screen-lg overflow-y-auto max-h-screen">
             <DialogHeader>
-              <DialogTitle className="text-xl font-bold text-white">
+              <DialogTitle className="text-3xl font-bold text-white">
                 {response.firstName} {response.lastName}
               </DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
-            <div className="flex flex-col gap-4 text-white font-light">
+            <div className="flex flex-col gap-8 mt-8 text-white font-light">
               <p className="capitalize text-lg font-semibold">
                 Status: {response.status}
               </p>
@@ -79,13 +79,13 @@ export const columns: ColumnDef<response>[] = [
                   className=" w-[400px] md:w-[600px] flex flex-col"
                   key={index}
                 >
-                  <p>{question}: </p>
-                  <p className="text-wrap whitespace-pre-wrap break-words">
-                    {(response as any)[`q${index + 1}`]}
+                  <p className="font-semibold"> Q. {question}: </p>
+                  <p className="text-wrap whitespace-pre-wrap break-words mt-2">
+                    A. {(response as any)[`q${index + 1}`]}
                   </p>
                 </div>
               ))}
-              <div className="flex gap-3 flex-wrap max-w-[90%]">
+              <div className="flex gap-3 my-3 flex-wrap max-w-[90%]">
                 {applicationStatus.map((status) => {
                   return (
                     <Button
