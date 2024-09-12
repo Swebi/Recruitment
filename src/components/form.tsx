@@ -188,6 +188,7 @@ export default function Form() {
                     </Label>
                     {field.type === "select" && field.name === "year" ? (
                       <Select
+                        name={field.name}
                         onValueChange={(value: string) => {
                           setFormData((prev) => ({
                             ...prev,
@@ -201,7 +202,7 @@ export default function Form() {
                         </SelectTrigger>
                         <SelectContent className="bg-secondary text-white border-secondary">
                           {field.options.map((option: string) => (
-                            <SelectItem key={option} value={option}>
+                            <SelectItem key={option} value={option} id={option}>
                               {option}
                             </SelectItem>
                           ))}

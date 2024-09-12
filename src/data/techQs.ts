@@ -1,5 +1,5 @@
 export const webDevQs = [
-  "Name web apps that fascinate you the most. What features or aspects of these websites do you find particularly intriguing?",
+  "Name a web app that fascinates you. What features or aspects of these websites do you find particularly intriguing?",
   "Can you walk me through a project where you faced a significant challenge? How did you overcome it?",
   "What are the main technologies or tools used in Web Development?",
   "Explain the differences between HTML, CSS, and JavaScript. How do they interact to create a web page?",
