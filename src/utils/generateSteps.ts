@@ -81,7 +81,7 @@ export function generateSteps(questionLabels: string[]): Step[] {
         },
         {
           name: "github",
-          label: "GitHub URL",
+          label: "GitHub URL (Optional)",
           type: "text",
         },
         {
