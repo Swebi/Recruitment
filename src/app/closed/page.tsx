@@ -24,7 +24,7 @@ const fadeIn = {
 
 export default function Component() {
   const router = useRouter();
-  if (process.env.RECRUITMENT_CLOSED !== "true") {
+  if (process.env.RECRUITMENT_CLOSED === "false") {
     router.push("/");
   }
   return (
